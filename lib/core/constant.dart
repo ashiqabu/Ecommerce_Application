@@ -20,6 +20,7 @@ final List<IconData> iconsList = [
   Icons.person,
   Icons.tv,
   Icons.woman,
+  Icons.sort,
 ];
 
 // final List<String> textList = ['All', 'Favorite', 'Mobile', 'Watch'];

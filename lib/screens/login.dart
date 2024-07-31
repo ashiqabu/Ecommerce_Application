@@ -1,6 +1,7 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, prefer_typing_uninitialized_variables
 
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,28 +24,33 @@ class _RegisterPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
 
   login(String username, String password) async {
+    const mainURL = 'http://bootcamp.cyralearnings.com/ecom.login.php';
     var result;
-    final Map<String, dynamic> loginData = {
-      'username': username,
-      'password': password
-    };
-    print(loginData);
-    final response = await http.post(
-        Uri.parse("http://bootcamp.cyralearnings.com/login.php"),
-        body: loginData);
-    print(response.toString());
-    if (response.statusCode == 200) {
-      if (response.body.contains('success')) {
-        final prefs = await SharedPreferences.getInstance();
-        prefs.setBool("isLoggedIn", true);
-        prefs.setString('username', username);
-        Navigator.pushNamed(context, '/home');
+
+    try {
+      final Map<String, dynamic> loginData = {
+        'username': username,
+        'password': password
+      };
+      log(loginData.toString());
+      final response = await http.post(Uri.parse(mainURL), body: loginData);
+      log(response.toString());
+      if (response.statusCode == 200) {
+        if (response.body.contains('success')) {
+          final prefs = await SharedPreferences.getInstance();
+          prefs.setBool("isLoggedIn", true);
+          prefs.setString('username', username);
+          Navigator.pushNamed(context, '/home');
+        } else {
+          log('login failed');
+        }
       } else {
-        print('login failed');
+        result = {log(json.decode(response.body)['error'].toString())};
       }
-    } else {
-      result = {print(json.decode(response.body)['error'].toString())};
+    } catch (e) {
+      log(e.toString());
     }
+
     return result;
   }
 

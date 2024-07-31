@@ -9,10 +9,11 @@ import 'package:test_cyra/models/user_model_page.dart';
 class Websevices {
   final imageUrlproducts = 'http://bootcamp.cyralearnings.com/products/';
   static const mainURL = 'http://bootcamp.cyralearnings.com/';
-  static const mainURL1 = 'http://192.168.29.72:8080/ecommerce_workshop/';
+
   Future<List<CategoryModel>?> fetchCategory() async {
     try {
-      final response = await http.get(Uri.parse('${mainURL}getcategories.php'));
+      final response = await http.get(Uri.parse(
+          '${mainURL}ecom.getcategories.php'));
       if (response.statusCode == 200) {
         final List<dynamic> parsedJson = jsonDecode(response.body);
         List<CategoryModel> categories =
@@ -29,8 +30,8 @@ class Websevices {
 
   Future<List<ProductModel>?> fetchProducts() async {
     try {
-      final response =
-          await http.get(Uri.parse('${mainURL}view_offerproducts.php'));
+      final response = await http.get(Uri.parse(
+          '${mainURL}ecom.view_offerproducts.php'));
       if (response.statusCode == 200) {
         final List<dynamic> parsedJson = jsonDecode(response.body);
         List<ProductModel> products =
@@ -48,7 +49,7 @@ class Websevices {
   Future<List<ProductModel>?> fetchCatProducts(int catid) async {
     try {
       final response = await http.post(
-          Uri.parse('${mainURL}get_category_products.php'),
+          Uri.parse('${mainURL}ecom.get_category_products.php'),
           body: {'catid': catid.toString()});
 
       if (response.statusCode == 200) {
@@ -65,7 +66,8 @@ class Websevices {
   }
 
   Future<UserModel> fetchUser(String username) async {
-    final respons = await http.post(Uri.parse('${mainURL}get_user.php'),
+    final respons = await http.post(
+        Uri.parse('http://bootcamp.cyralearnings.com/ecom.get_user.php'),
         body: {'username': username});
     if (respons.statusCode == 200) {
       return UserModel.fromJson(jsonDecode(respons.body));
@@ -78,7 +80,8 @@ class Websevices {
     log('username : $username');
     try {
       final response = await http.post(
-          Uri.parse('${mainURL}get_orderdetails.php'),
+          Uri.parse(
+              '${mainURL}ecom.get_orderdetails.php'),
           body: {'username': username.toString()});
       if (response.statusCode == 200) {
         final parsed = json.decode(response.body).cast<Map<String, dynamic>>();

@@ -26,7 +26,7 @@ class _OrderDtailsScreenState extends State<OrderDtailsScreen> {
     setState(() {
       username = prefs.getString('username');
     });
-    log('username : ${username.toString()}');
+    log('username :******* ${username.toString()}');
   }
 
   @override

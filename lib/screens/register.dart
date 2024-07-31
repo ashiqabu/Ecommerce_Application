@@ -83,7 +83,7 @@ class _RegisterPageState extends State<RegisterPage> {
       'password': password.text
     };
     final response = await http.post(
-        Uri.parse("http://bootcamp.cyralearnings.com/registration.php"),
+        Uri.parse("http://bootcamp.cyralearnings.com/ecom.registration.php"),
         body: data);
     if (kDebugMode) {
       print(response.body);

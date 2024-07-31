@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_cyra/core/constant.dart';
 import 'package:test_cyra/core/error_indicator_widget.dart';
 import 'package:test_cyra/provider/cart_provider_page.dart';
+import 'package:test_cyra/provider/wishList_provider.dart';
 import 'package:test_cyra/web-services/web_service_page.dart';
 
 class DrawerWidget extends StatefulWidget {
@@ -104,6 +105,23 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     title: const Text('Order Details'),
                     onTap: () {
                       Navigator.pushNamed(context, '/orderDtailsScreen');
+                    },
+                  ),
+                  ListTile(
+                    leading: Badge(
+                        isLabelVisible:
+                            context.read<WishlistProvider>().getItems.isEmpty
+                                ? false
+                                : true,
+                        label: Text(context
+                            .read<WishlistProvider>()
+                            .getItems
+                            .length
+                            .toString()),
+                        child: const Icon(Icons.favorite)),
+                    title: const Text('WhishList'),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/whisListScreen');
                     },
                   ),
                   ListTile(

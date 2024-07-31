@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 import 'dart:developer';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -39,18 +38,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     setState(() {
       username = prefs.getString('username');
     });
-    if (kDebugMode) {
-      print('Username ===${username.toString()}');
-    }
+ 
+      log('Username ===${username.toString()}');
+    
   }
 
   orderPlace(List<CartProduct> cart, String amount, String paymentMethode,
       String date, String name, String address, String phone) async {
     String jsonData = jsonEncode(cart);
-
+    const url='http://bootcamp.cyralearnings.com/ecom.order.php';
     final vm = Provider.of<Cart>(context, listen: false);
     final response =
-        await http.post(Uri.parse("${Websevices.mainURL}order.php"), body: {
+        await http.post(Uri.parse(url), body: {
       'username': username,
       "amount": amount,
       "paymentmethod": paymentMethode,

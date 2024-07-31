@@ -2,10 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:provider/provider.dart';
+import 'package:test_cyra/core/alert_message.dart';
 import 'package:test_cyra/core/constant.dart';
 import 'package:test_cyra/core/error_indicator_widget.dart';
 import 'package:test_cyra/models/category_model_page.dart';
 import 'package:test_cyra/models/products_model_page.dart';
+import 'package:test_cyra/provider/wishList_provider.dart';
 import 'package:test_cyra/screens/category_products_page.dart';
 import 'package:test_cyra/screens/drawer_page.dart';
 import 'package:test_cyra/screens/product_full_details_page.dart';
@@ -198,6 +201,55 @@ class _HomeScreenState extends State<HomeScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Consumer<WishlistProvider>(
+                                              builder:
+                                                  (context, wishlist, child) {
+                                                bool isInWishlist = wishlist
+                                                    .getItems
+                                                    .any((element) =>
+                                                        element.id ==
+                                                        product.id);
+                                                return IconButton(
+                                                    onPressed: () {
+                                                      if (isInWishlist) {
+                                                        wishlist.removeItem(
+                                                            product.id);
+                                                        showCustomSnackBar(
+                                                          context,
+                                                          'Item removed',
+                                                          Colors.red,
+                                                        );
+                                                      } else {
+                                                        wishlist.addItem(
+                                                          product.id,
+                                                          product.productname,
+                                                          Websevices()
+                                                      .imageUrlproducts +
+                                                  product.image,
+                                                          product.price,
+                                                        );
+                                                        showCustomSnackBar(
+                                                          context,
+                                                          'Item added',
+                                                          Colors.green,
+                                                        );
+                                                      }
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.favorite,
+                                                      color: isInWishlist
+                                                          ? Colors.red
+                                                          : Colors
+                                                              .grey.shade400,
+                                                    ));
+                                              },
+                                            ),
+                                          ],
+                                        ),
                                         Container(
                                           constraints: const BoxConstraints(
                                               minHeight: 100, maxHeight: 250),

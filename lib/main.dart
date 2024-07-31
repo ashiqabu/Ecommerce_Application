@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_cyra/provider/cart_provider_page.dart';
+import 'package:test_cyra/provider/wishList_provider.dart';
 import 'package:test_cyra/screens/cart_page.dart';
 import 'package:test_cyra/screens/home_page.dart';
 import 'package:test_cyra/screens/intro_page.dart';
@@ -9,11 +10,13 @@ import 'package:test_cyra/screens/login.dart';
 import 'package:test_cyra/screens/order_details_page.dart';
 import 'package:test_cyra/screens/register.dart';
 import 'package:test_cyra/screens/successfull_page.dart';
+import 'package:test_cyra/screens/wishlist_page.dart';
 
 void main() {
-  runApp(MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => Cart())],
-      child: const MyApp()));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => Cart()),
+    ChangeNotifierProvider(create: (_) => WishlistProvider())
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -29,6 +32,7 @@ class MyApp extends StatelessWidget {
     return FutureBuilder<bool>(
       future: _checkLoginStatus(),
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        // log();
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator();
         } else {
@@ -40,7 +44,8 @@ class MyApp extends StatelessWidget {
             ),
             debugShowCheckedModeBanner: false,
             title: 'Ecommerce Appplication',
-            initialRoute: isLoggedIn ? '/home' : '/intro',
+           // initialRoute: isLoggedIn ? '/home' : '/intro',
+           initialRoute: '/whisListScreen',
             routes: {
               '/intro': (context) => const IntroPage(),
               '/login': (context) => const LoginPage(),
@@ -48,7 +53,8 @@ class MyApp extends StatelessWidget {
               '/home': (context) => const HomeScreen(),
               '/cartPage': (context) => CartScreen(),
               '/orderDtailsScreen': (context) => const OrderDtailsScreen(),
-               '/succsessScreen': (context) => const SuccsessScreen(),
+              '/succsessScreen': (context) => const SuccsessScreen(),
+              '/whisListScreen': (context) => const WhisListScreen(),
               // '/checkoutScreen': (context) =>  CheckoutScreen(cart: [],),
               //'/categoryProductScreen': (context) =>  CategoryProductScreen(),
             },
